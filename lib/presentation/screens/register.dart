@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:theate/buisness_logic/authbloc/bloc/authbloc_bloc.dart';
+import 'package:theate/data/models/usermodel.dart';
 import 'package:theate/presentation/constants/color.dart';
+import 'package:theate/presentation/screens/profile_screen.dart';
 import 'package:theate/presentation/widget/textformwidget.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -12,114 +16,127 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     double screenheight = MediaQuery.of(context).size.height;
+    double screenheight = MediaQuery.of(context).size.height;
     double screenwidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: MyColor().darkblue,
-        iconTheme: IconThemeData(color: MyColor().primarycolor),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                children: [
-                  Center(
-                    child: Image.asset(
-                      'asset/Movitix_titile_blue.png',
-                      width: screenwidth * 0.7,
-                    ),
-                  ),
-                  SizedBox(
-                    height: screenheight * 0.1,
-                  ),
-                  Text(
-                    'Create an Account',
-                    style: TextStyle(
-                        color: MyColor().primarycolor,
-                        fontFamily: 'Cabin',
-                        fontSize: 24),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  CustomTextFormField(
-                      prefixIcon: Icon(Icons.person),
-                      controller: _namecontroller,
-                      hintText: "Full Name"),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  CustomTextFormField(
-                      prefixIcon: const Icon(Icons.email),
-                      controller: _emailnamecontroller,
-                      hintText: " Email"),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  CustomTextFormField(
-                      prefixIcon: Icon(Icons.alternate_email_rounded),
-                      controller: _usernamecontroller,
-                      hintText: "Username"),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  CustomTextFormField(
-                      prefixIcon: Icon(Icons.lock),
-                      controller: _passwordcontroller,
-                      hintText: "Password"),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    width: screenwidth * 0.9,
-                    height: screenheight * 0.06,
-                    decoration: BoxDecoration(
-                      color: MyColor().primarycolor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                        child: InkWell(
-                      onTap: () {
-                     
-                      },
-                      child: const Text(
-                        'Register',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 22),
-                      ),
-                    )),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+    final authbloc = BlocProvider.of<AuthblocBloc>(context);
+    return BlocBuilder<AuthblocBloc, AuthblocState>(
+      builder: (context, state) {
+        if (state is Authenticated) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushAndRemoveUntil(context,
+                MaterialPageRoute(builder: (context) {
+              return ProfileScreen();
+            }), (route) => false);
+          });
+        }
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: MyColor().darkblue,
+            iconTheme: IconThemeData(color: MyColor().primarycolor),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
                     children: [
-                      const Text(
-                        ' Already have an account? ',
-                        style: TextStyle(color: Colors.white),
+                      Center(
+                        child: Image.asset(
+                          'asset/Movitix_tittle_orange.png',
+                          width: screenwidth * 0.7,
+                        ),
                       ),
-                      InkWell(
+                      Text(
+                        'Create an Account',
+                        style: TextStyle(
+                            color: MyColor().primarycolor, fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CustomTextFormField(
+                          prefixIcon: Icon(Icons.person),
+                          controller: _namecontroller,
+                          hintText: "Full Name"),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      CustomTextFormField(
+                          prefixIcon: const Icon(Icons.email),
+                          controller: _emailnamecontroller,
+                          hintText: " Email"),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      CustomTextFormField(
+                          prefixIcon: Icon(Icons.alternate_email_rounded),
+                          controller: _usernamecontroller,
+                          hintText: "Username"),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      CustomTextFormField(
+                          prefixIcon: Icon(Icons.lock),
+                          controller: _passwordcontroller,
+                          hintText: "Password"),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Container(
+                        width: screenwidth * 0.9,
+                        height: screenheight * 0.06,
+                        decoration: BoxDecoration(
+                          color: MyColor().primarycolor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                            child: InkWell(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            Usermodel user = Usermodel(
+                                name: _namecontroller.text,
+                                email: _emailnamecontroller.text,
+                                password: _passwordcontroller.text,
+                                userid: _usernamecontroller.text);
+                            authbloc.add(SingupEvent(user: user));
                           },
-                          child: Text(
-                            "Login Here",
-                            style: TextStyle(color: MyColor().primarycolor),
-                          ))
+                          child: const Text(
+                            'Register',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 22),
+                          ),
+                        )),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            ' Already have an account? ',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Login Here",
+                                style: TextStyle(color: MyColor().primarycolor),
+                              ))
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      backgroundColor: MyColor().darkblue,
+          ),
+          backgroundColor: MyColor().darkblue,
+        );
+      },
     );
   }
 }
