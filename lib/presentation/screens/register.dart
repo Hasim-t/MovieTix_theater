@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:theate/buisness_logic/authbloc/bloc/authbloc_bloc.dart';
+
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:theate/buisness_logic/auth/auth_getx.dart';
+
 import 'package:theate/data/models/usermodel.dart';
 import 'package:theate/presentation/constants/color.dart';
-import 'package:theate/presentation/screens/profile_screen.dart';
+import 'package:theate/presentation/screens/login_screen.dart';
+
 import 'package:theate/presentation/widget/textformwidget.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -18,30 +22,21 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenheight = MediaQuery.of(context).size.height;
     double screenwidth = MediaQuery.of(context).size.width;
-    final authbloc = BlocProvider.of<AuthblocBloc>(context);
-    return BlocBuilder<AuthblocBloc, AuthblocState>(
-      builder: (context, state) {
-        if (state is Authenticated) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushAndRemoveUntil(context,
-                MaterialPageRoute(builder: (context) {
-              return ProfileScreen();
-            }), (route) => false);
-          });
-        }
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: MyColor().darkblue,
-            iconTheme: IconThemeData(color: MyColor().primarycolor),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Column(
-                    children: [
+    final AuthController authController = Get.find<AuthController>();
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: MyColor().darkblue,
+        iconTheme: IconThemeData(color: MyColor().primarycolor),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
                       Center(
                         child: Image.asset(
                           'asset/Movitix_tittle_orange.png',
@@ -99,7 +94,8 @@ class RegisterPage extends StatelessWidget {
                                 email: _emailnamecontroller.text,
                                 password: _passwordcontroller.text,
                                 userid: _usernamecontroller.text);
-                            authbloc.add(SingupEvent(user: user));
+                            // authbloc.add(SingupEvent(user: user));
+                            authController.signUp(user);
                           },
                           child: const Text(
                             'Register',
@@ -120,7 +116,7 @@ class RegisterPage extends StatelessWidget {
                           ),
                           InkWell(
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Get.back();
                               },
                               child: Text(
                                 "Login Here",
@@ -136,7 +132,7 @@ class RegisterPage extends StatelessWidget {
           ),
           backgroundColor: MyColor().darkblue,
         );
-      },
-    );
+      }
+    
   }
-}
+
