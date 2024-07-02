@@ -157,6 +157,9 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height:  29,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -164,6 +167,7 @@ class LoginScreen extends StatelessWidget {
                               'Didn’t have an account?',
                               style: TextStyle(color: Colors.white),
                             ),
+
                             GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).push(
