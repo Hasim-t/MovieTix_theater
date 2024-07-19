@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:theate/buisness_logic/auth/auth_getx.dart';
 import 'package:theate/presentation/constants/color.dart';
-import 'package:theate/presentation/screens/login_screen.dart';
-import 'package:theate/presentation/screens/profile_screen.dart';
+import 'package:theate/presentation/widget/bottom_nav.dart';
+import 'package:theate/presentation/screens/profile/login_screen.dart';
+import 'package:theate/presentation/screens/home/profile_screen.dart';
 class Splash extends StatelessWidget {
   const Splash({Key? key}) : super(key: key);
 
@@ -13,7 +14,7 @@ class Splash extends StatelessWidget {
 
       Future.delayed(Duration(seconds: 2), () {
       if (authController.user.value != null) {
-        Get.offAll(() => ProfileScreen());
+        Get.offAll(() => BottomNav());
       } else {
         Get.offAll(() => LoginScreen());
       }
