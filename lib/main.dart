@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:theate/buisness_logic/auth/auth_getx.dart';
 import 'package:theate/buisness_logic/bottom_nav_getx.dart';
 
+
 import 'package:theate/firebase_options.dart';
 
 import 'package:theate/presentation/screens/splash.dart';
@@ -14,6 +15,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Get.put(AuthController());
   Get.put(BottomNavController());
+
   runApp(const MyApp());
 }
 

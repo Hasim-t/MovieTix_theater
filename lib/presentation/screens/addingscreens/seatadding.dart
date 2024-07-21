@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:theate/presentation/constants/color.dart';
+import 'package:theate/presentation/screens/addingscreens/movie_slection.dart';
 
-import 'package:theate/presentation/screens/movie_slection.dart';
+
 import 'package:theate/presentation/widget/textformwidget.dart';
 
 class SeataddingScreen extends StatelessWidget {

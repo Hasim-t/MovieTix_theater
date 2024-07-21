@@ -35,7 +35,7 @@ class CustomTextFormField extends StatefulWidget{
     this.focusedBorder,
     this.prefixIcon,
     this.suffixIcon,
-    this.errorText,
+    this.errorText, 
   }) : super(key: key);
 
   @override

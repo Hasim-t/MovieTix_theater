@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:theate/presentation/constants/color.dart';
-import 'package:theate/presentation/screens/addingscreens/arrangement_seat.dart';
+
 import 'package:get/get.dart';
-import 'package:theate/presentation/screens/date_time_set.dart';
+import 'package:theate/presentation/screens/addingscreens/date_time_set.dart';
+
 
 class MovieSelectionScreen extends StatelessWidget {
   final int rows;
