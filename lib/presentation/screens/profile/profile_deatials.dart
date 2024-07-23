@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,17 +17,17 @@ class MyProfile extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: MyColor().darkblue,
-      appBar:AppBar(
-          elevation: 0,
-          foregroundColor: MyColor().primarycolor,
-          backgroundColor: MyColor().darkblue,
-          title: Text('Profile',
-              style: TextStyle(
-                  color: MyColor().primarycolor,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold)),
-          centerTitle: true,
-        ),
+      appBar: AppBar(
+        elevation: 0,
+        foregroundColor: MyColor().primarycolor,
+        backgroundColor: MyColor().darkblue,
+        title: Text('Profile',
+            style: TextStyle(
+                color: MyColor().primarycolor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold)),
+        centerTitle: true,
+      ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('owners')
@@ -52,22 +51,20 @@ class MyProfile extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: screenHeight * 0.02),
-                 Center(
+                Center(
                   child: CircleAvatar(
                     radius: screenHeight * 0.11,
                     backgroundImage: userData['profileImageUrl'] != null
                         ? NetworkImage(userData['profileImageUrl'])
-                        : AssetImage('asset/avatarpng.png') as ImageProvider,
+                        : const AssetImage('asset/avatarpng.png') as ImageProvider,
                     child: userData['profileImageUrl'] == null
                         ? null
                         : Container(),
                   ),
                 ),
                 Text(
-                  
                   userData['name'] ?? 'User',
                   style: TextStyle(
-                    
                     color: MyColor().primarycolor,
                     fontFamily: 'Cabin',
                     fontSize: 24,
@@ -78,14 +75,12 @@ class MyProfile extends StatelessWidget {
                 const Divider(),
                 SizedBox(height: screenHeight * 0.02),
                 CoustomNameRow(label: "Email", value: userData['email'] ?? 'No email'),
-               const SizedBox(height: 10),
+                const SizedBox(height: 10),
                 CoustomNameRow(label: 'Phone', value: userData['phone'] ?? 'No phone'),
-               const  SizedBox(height: 10),
-                CoustomNameRow(label: 'Gender', value: userData['gender'] ?? 'Not specified'),
-               const SizedBox(height: 10),
-                CoustomNameRow(label: 'Date of Birth', value: userData['dateOfBirth'] ?? 'Not specified'),
-               const  SizedBox(height: 10),
-                CoustomNameRow(label: 'Marital Status', value: userData['maritalStatus'] ?? 'Not specified'),
+                const SizedBox(height: 10),
+                CoustomNameRow(label: 'Address', value: userData['address'] ?? 'Not specified'),
+                const SizedBox(height: 10),
+                CoustomNameRow(label: 'Place', value: userData['place'] ?? 'Not specified'),
                 Spacer(),
                 ElevatedButton(
                   onPressed: () {

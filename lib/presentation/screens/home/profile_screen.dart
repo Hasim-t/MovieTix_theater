@@ -152,7 +152,9 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.logout,
                       text: 'Logout',
                       color: MyColor().red,
-                      ontap: () {},
+                      ontap: () {
+                        authController.showLogoutConfirmation();
+                      },
                     ),
                   ],
                 );

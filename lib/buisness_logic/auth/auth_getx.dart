@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:theate/data/models/usermodel.dart';
+import 'package:theate/presentation/constants/color.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -75,13 +77,39 @@ class AuthController extends GetxController {
     }
   }
 
+Future<void> showLogoutConfirmation() async {
+    final result = await Get.dialog<bool>(
+      AlertDialog(
+        backgroundColor: MyColor().darkblue,
+        title: Text('Logout Confirmation', style: TextStyle(color: MyColor().primarycolor)),
+        content: Text('Are you sure you want to logout?', style: TextStyle(color: MyColor().primarycolor)),
+        actions: [
+          TextButton(
+            child: Text('Cancel', style: TextStyle(color: MyColor().primarycolor)),
+            onPressed: () => Get.back(result: false),
+          ),
+          TextButton(
+            child: Text('Logout', style: TextStyle(color: MyColor().red)),
+            onPressed: () => Get.back(result: true),
+          ),
+        ],
+      ),
+    );
+
+    if (result == true) {
+      await logout();
+    }
+  }
+
   Future<void> logout() async {
     isLoading.value = true;
     try {
       await _auth.signOut();
+      await _googleSignIn.signOut(); // Also sign out from Google
       user.value = null;
+      Get.offAllNamed('/login'); // Navigate to login screen after logout
     } catch (e) {
-      print("Error loggin out : $e");
+      print("Error logging out: $e");
     } finally {
       isLoading.value = false;
     }

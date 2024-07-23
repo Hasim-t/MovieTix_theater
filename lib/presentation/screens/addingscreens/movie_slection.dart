@@ -65,7 +65,7 @@ class MovieSelectionScreen extends StatelessWidget {
       columns: columns,
       audiName: audiName,
       screenId: screenId,
-      ownerId: ownerId,   // Add this line, you need to get the screenId from somewhere
+      ownerId: ownerId,   
     ));
   },
                 child: Container(

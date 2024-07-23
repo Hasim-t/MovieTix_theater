@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theate/presentation/constants/color.dart';
 import 'package:get/get.dart';
+import 'package:theate/presentation/screens/home/home_screen.dart';
+
 class ArrangementSeat extends StatelessWidget {
   final int rows;
   final int columns;
@@ -13,9 +15,9 @@ class ArrangementSeat extends StatelessWidget {
   final String screenId;
 
   const ArrangementSeat({
-    Key? key, 
-    required this.rows, 
-    required this.columns, 
+    Key? key,
+    required this.rows,
+    required this.columns,
     required this.audiName,
     required this.movieId,
     required this.movieName,
@@ -23,53 +25,57 @@ class ArrangementSeat extends StatelessWidget {
     required this.screenId,
   }) : super(key: key);
 
- Future<Set<int>> saveToFirebase(Set<int> selectedSeats) async {
-  try {
-    await FirebaseFirestore.instance.collection('screens').doc(screenId).update({
-      'audiName': audiName,
-      'rows': rows,
-      'columns': columns,
-      'totalSeats': rows * columns,
-      'selectedSeats': selectedSeats.toList(),
-      'movieId': movieId,
-      'movieName': movieName,
-      'schedules': schedules,
-      'updatedAt': FieldValue.serverTimestamp(),
-    });
-    
-    return selectedSeats;
-  } catch (e) {
-    print('Error saving to Firebase: $e');
-    return selectedSeats;
+  Future<Set<int>> saveToFirebase(Set<int> selectedSeats) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('screens')
+          .doc(screenId)
+          .update({
+        'audiName': audiName,
+        'rows': rows,
+        'columns': columns,
+        'totalSeats': rows * columns,
+        'selectedSeats': selectedSeats.toList(),
+        'movieId': movieId,
+        'movieName': movieName,
+        'schedules': schedules,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      return selectedSeats;
+    } catch (e) {
+      print('Error saving to Firebase: $e');
+      return selectedSeats;
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColor().darkblue,
       appBar: AppBar(
-        title: Text('Seat Arrangement'),
+        title: const Text('Seat Arrangement'),
       ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 16),
-            Text("Theatre Screen this side", style: TextStyle(color: MyColor().white)),
+            Text("Theatre Screen this side",
+                style: TextStyle(color: MyColor().white)),
             const SizedBox(height: 16),
             Flexible(
               child: SizedBox(
                 width: double.maxFinite,
                 height: 500,
                 child: SeatLayoutWidget(
-  rows: rows, 
-  columns: columns,  
-  onSave: (Set<int> selectedSeats) async {
-    final result = await saveToFirebase(selectedSeats);
-    return result;  // Return the result without navigating back here
-  },
-),
+                  rows: rows,
+                  columns: columns,
+                  onSave: (Set<int> selectedSeats) async {
+                    final result = await saveToFirebase(selectedSeats);
+                    return result;
+                  },
+                ),
               ),
             ),
             Padding(
@@ -77,8 +83,10 @@ class ArrangementSeat extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildLegendItem('asset/svg_selected_bus_seats.svg', 'Selected by you'),
-                  _buildLegendItem('asset/svg_unselected_bus_seat.svg', 'Available'),
+                  _buildLegendItem(
+                      'asset/svg_selected_bus_seats.svg', 'Selected by you'),
+                  _buildLegendItem(
+                      'asset/svg_unselected_bus_seat.svg', 'Available'),
                 ],
               ),
             ),
@@ -104,13 +112,19 @@ class SeatLayoutWidget extends StatefulWidget {
   final int columns;
   final Function(Set<int>) onSave;
 
-  SeatLayoutWidget({Key? key, required this.rows, required this.columns, required this.onSave}) : super(key: key);
+  SeatLayoutWidget(
+      {Key? key,
+      required this.rows,
+      required this.columns,
+      required this.onSave})
+      : super(key: key);
 
   @override
   _SeatLayoutWidgetState createState() => _SeatLayoutWidgetState();
 }
 
-class _SeatLayoutWidgetState extends State<SeatLayoutWidget> with SingleTickerProviderStateMixin {
+class _SeatLayoutWidgetState extends State<SeatLayoutWidget>
+    with SingleTickerProviderStateMixin {
   Set<int> selectedSeats = {};
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -122,7 +136,8 @@ class _SeatLayoutWidgetState extends State<SeatLayoutWidget> with SingleTickerPr
       duration: const Duration(milliseconds: 500),
       vsync: this,
     )..repeat(reverse: true);
-    _animation = Tween<double>(begin: 0.5, end: 1).animate(_animationController);
+    _animation =
+        Tween<double>(begin: 0.5, end: 1).animate(_animationController);
   }
 
   @override
@@ -162,7 +177,8 @@ class _SeatLayoutWidgetState extends State<SeatLayoutWidget> with SingleTickerPr
                           builder: (context, child) {
                             return Opacity(
                               opacity: _animation.value,
-                              child: SvgPicture.asset('asset/svg_selected_bus_seats.svg'),
+                              child: SvgPicture.asset(
+                                  'asset/svg_selected_bus_seats.svg'),
                             );
                           },
                         )
@@ -172,13 +188,14 @@ class _SeatLayoutWidgetState extends State<SeatLayoutWidget> with SingleTickerPr
             },
           ),
         ),
-      ElevatedButton(
-  onPressed: () async {
-    final result = await widget.onSave(selectedSeats);
-    Get.back(result: result);  // Navigate back only once, after saving
-  },
-  child: Text("Save", style: TextStyle(color: MyColor().gray))
-)
+        ElevatedButton(
+            onPressed: () async {
+              final result = await widget.onSave(selectedSeats);
+             Get.back(result: result);
+              Get.offAll(HomeScreen());
+              // Navigate back only once, after saving
+            },
+            child: Text("Save", style: TextStyle(color: MyColor().gray)))
       ],
     );
   }

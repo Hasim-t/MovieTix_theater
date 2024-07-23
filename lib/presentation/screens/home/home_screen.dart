@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:theate/presentation/constants/color.dart';
-import 'package:theate/presentation/screens/addingscreens/seatadd.dart';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:theate/presentation/screens/addingscreens/seatadding.dart';

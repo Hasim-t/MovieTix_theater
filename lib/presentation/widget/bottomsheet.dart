@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +7,10 @@ import 'package:theate/presentation/widget/textformwidget.dart';
 void showProfileBottomSheet(BuildContext context, Map<String, dynamic> userData) {
   double screenHeight = MediaQuery.of(context).size.height;
   double screenWidth = MediaQuery.of(context).size.width;
-TextEditingController namecontroller = TextEditingController(text: userData['name'] ?? '');
+  TextEditingController namecontroller = TextEditingController(text: userData['name'] ?? '');
   TextEditingController phonecontroller = TextEditingController(text: userData['phone'] ?? '');
-  TextEditingController Gentercontroller = TextEditingController(text: userData['gender'] ?? '');
-  TextEditingController Dobcontroller = TextEditingController(text: userData['dateOfBirth'] ?? '');
-  TextEditingController maragecontroller = TextEditingController(text: userData['maritalStatus'] ?? '');
+  TextEditingController addresscontroller = TextEditingController(text: userData['address'] ?? '');
+  TextEditingController placecontroller = TextEditingController(text: userData['place'] ?? '');
 
   void saveUserDetails() async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
@@ -20,14 +18,13 @@ TextEditingController namecontroller = TextEditingController(text: userData['nam
 
     try {
       await FirebaseFirestore.instance
-          .collection('users')
+          .collection('owners')
           .doc(currentUser.uid)
           .update({
         'name': namecontroller.text,
         'phone': phonecontroller.text,
-        'gender': Gentercontroller.text,
-        'dateOfBirth': Dobcontroller.text,
-        'maritalStatus': maragecontroller.text,
+        'address': addresscontroller.text,
+        'place': placecontroller.text,
       });
        
     } catch (e) {
@@ -38,7 +35,7 @@ TextEditingController namecontroller = TextEditingController(text: userData['nam
 
   showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // This is important
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.white.withOpacity(0.1),
       builder: (BuildContext context) {
@@ -81,14 +78,10 @@ TextEditingController namecontroller = TextEditingController(text: userData['nam
                         controller: phonecontroller, hintText: "Phone"),
                     const SizedBox(height: 20),
                     CustomTextFormField(
-                        controller: Gentercontroller, hintText: "Gender"),
+                        controller: addresscontroller, hintText: "Address"),
                     const SizedBox(height: 20),
                     CustomTextFormField(
-                        controller: Dobcontroller, hintText: "Date of Birth"),
-                    const SizedBox(height: 20),
-                    CustomTextFormField(
-                        controller: maragecontroller,
-                        hintText: "Marital Status"),
+                        controller: placecontroller, hintText: "Place"),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: saveUserDetails,
@@ -99,7 +92,7 @@ TextEditingController namecontroller = TextEditingController(text: userData['nam
                       ),
                       child: Text("Save"),
                     ),
-                  const   SizedBox(height: 20), 
+                    const SizedBox(height: 20), 
                   ],
                 ),
               ),
