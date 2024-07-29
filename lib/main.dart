@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:theate/buisness_logic/auth/auth_getx.dart';
 import 'package:theate/buisness_logic/bottom_nav_getx.dart';
-
+import 'package:theate/buisness_logic/seatmanangment_controller.dart';
 
 import 'package:theate/firebase_options.dart';
 
@@ -15,6 +15,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Get.put(AuthController());
   Get.put(BottomNavController());
+  Get.put(TheaterManagementController());
 
   runApp(const MyApp());
 }
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Splash(),
     );

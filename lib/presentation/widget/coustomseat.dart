@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:book_my_seat/book_my_seat.dart';
 import 'package:theate/presentation/constants/color.dart';
 
@@ -38,28 +39,35 @@ class CustomSeatLayoutWidget extends StatelessWidget {
   }
 
   Widget _buildSeatSpace(int rowIndex, int colIndex) {
-    return GestureDetector(
+    return Obx(() => GestureDetector(
       onTap: () => onSeatToggled(rowIndex, colIndex),
       child: Container(
         width: stateModel.seatSvgSize.toDouble(),
         height: stateModel.seatSvgSize.toDouble(),
         decoration: BoxDecoration(
-          color: _getSeatColor(stateModel.currentSeatsState[rowIndex][colIndex]),
+          border: Border.all(color: Colors.grey.withOpacity(0.5)),
           borderRadius: BorderRadius.circular(5.0),
         ),
-        child: Center(
-          child: Text(
-            '${String.fromCharCode(65 + rowIndex)}${colIndex + 1}',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        child: stateModel.seatVisibility[rowIndex][colIndex].value
+            ? Container(
+                decoration: BoxDecoration(
+                  color: _getSeatColor(stateModel.currentSeatsState[rowIndex][colIndex]),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Center(
+                  child: Text(
+                    '${String.fromCharCode(65 + rowIndex)}${colIndex + 1}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox(),
       ),
-    );
+    ));
   }
-
   Color _getSeatColor(SeatState state) {
     switch (state) {
       case SeatState.selected:
@@ -86,6 +94,7 @@ class CustomSeatLayoutStateModel {
   final List<List<SeatState>> currentSeatsState;
   final List<int> horizontalGaps;
   final List<int> verticalGaps;
+  final List<List<RxBool>> seatVisibility;
 
   CustomSeatLayoutStateModel({
     required this.rows,
@@ -98,5 +107,6 @@ class CustomSeatLayoutStateModel {
     required this.currentSeatsState,
     required this.horizontalGaps,
     required this.verticalGaps,
+    required this.seatVisibility
   });
 }
