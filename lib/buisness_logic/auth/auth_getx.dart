@@ -8,7 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:theate/data/models/usermodel.dart';
 import 'package:theate/presentation/constants/color.dart';
 
-class AuthController extends GetxController {
+ class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 

@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      Get.to(()=>ForgotPasswordPage());
+                                      Get.to(()=> ForgotPasswordPage());
                                     },
                                     child: Text("Forgot Password",style: TextStyle(
                                       color:  MyColor().primarycolor 

@@ -8,13 +8,15 @@ import 'package:theate/presentation/widget/coustomseat.dart';
 class TheaterManagementScreen extends StatelessWidget {
   final TheaterManagementController controller = Get.put(TheaterManagementController());
 
+   TheaterManagementScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColor().darkblue,
       appBar: AppBar(
         backgroundColor: MyColor().primarycolor,
-        title: Text('Theater Management'),
+        title: const Text('Theater Management'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -26,7 +28,7 @@ class TheaterManagementScreen extends StatelessWidget {
                   color: MyColor().white
                 ),
                 controller: controller.screenNameController,
-                decoration: InputDecoration(labelText: 'Screen Name'),
+                decoration: const InputDecoration(labelText: 'Screen Name'),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -37,18 +39,18 @@ class TheaterManagementScreen extends StatelessWidget {
                         style: TextStyle(
                           color: MyColor().white
                         ),
-                        decoration: InputDecoration(labelText: 'Rows'),
+                        decoration: const InputDecoration(labelText: 'Rows'),
                         keyboardType: TextInputType.number,
                         onChanged: controller.updateRows,
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
                         style: TextStyle(
                           color: MyColor().white
                         ),
-                        decoration: InputDecoration(labelText: 'Columns'),
+                        decoration: const InputDecoration(labelText: 'Columns'),
                         keyboardType: TextInputType.number,
                         onChanged: controller.updateCols,
                       ),
@@ -58,9 +60,9 @@ class TheaterManagementScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: _showGapCustomizationDialog,
-                child: Text('Customize Walking Spaces'),
+                child: const Text('Customize Walking Spaces'),
               ),
-              SizedBox(height: 16),
+             const  SizedBox(height: 16),
               Obx(() => ConstrainedBox(
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width,
@@ -88,11 +90,11 @@ class TheaterManagementScreen extends StatelessWidget {
                   ),
                 ),
               )),
-              SizedBox(height: 16),
+             const SizedBox(height: 16),
               Image.asset('asset/theaterscreenpng.png'),
               ElevatedButton(
                 onPressed: controller.saveToFirebase,
-                child: Text('Save Screen Layout'),
+                child: const Text('Save Screen Layout'),
               ),
             ],
           ),
@@ -104,7 +106,7 @@ class TheaterManagementScreen extends StatelessWidget {
   void _showGapCustomizationDialog() {
     Get.dialog(
       AlertDialog(
-        title: Text('Customize Walking Spaces'),
+        title: const Text('Customize Walking Spaces'),
         content: SingleChildScrollView(
           child: Column(
             children: [
@@ -128,8 +130,8 @@ class TheaterManagementScreen extends StatelessWidget {
                   )
                 ),
               )),
-              Divider(),
-              Text('Vertical Gaps (after each row):'),
+              const Divider(),
+             const   Text('Vertical Gaps (after each row):'),
               Obx(() => Column(
                 children: List.generate(controller.rows.value - 1, (i) => 
                   Row(
@@ -154,7 +156,7 @@ class TheaterManagementScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Close'),
+            child: const Text('Close'),
             onPressed: () => Get.back(),
           ),
         ],

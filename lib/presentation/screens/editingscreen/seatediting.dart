@@ -57,7 +57,7 @@ class _SeateditingState extends State<Seatediting> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _updateScreenDetails,
-              child: Text('Update Screen Details'),
+              child: const Text('Update Screen Details'),
             ),
           ],
         ),

@@ -150,7 +150,7 @@ class TheaterManagementController extends GetxController {
       verticalGaps.value = List<int>.from(data['verticalGaps']);
       toggledSeats.value = Set<String>.from(data['toggledSeats']);
 
-      // Reconstruct 2D seatStates
+    
       List<String> flatStates = List<String>.from(data['seatStates']);
       seatStates.value = List.generate(
         rows.value,
@@ -163,7 +163,7 @@ class TheaterManagementController extends GetxController {
         ),
       );
 
-      // Reconstruct 2D seatVisibility
+     
       List<bool> flatVisibility = List<bool>.from(data['seatVisibility']);
       seatVisibility.value = List.generate(
         rows.value,

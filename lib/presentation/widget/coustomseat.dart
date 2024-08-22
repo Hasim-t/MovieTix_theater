@@ -49,25 +49,26 @@ class CustomSeatLayoutWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: stateModel.seatVisibility[rowIndex][colIndex].value
-            ? Container(
-                decoration: BoxDecoration(
-                  color: _getSeatColor(stateModel.currentSeatsState[rowIndex][colIndex]),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Center(
-                  child: Text(
-                    '${String.fromCharCode(65 + rowIndex)}${colIndex + 1}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
+          ? Container(
+              decoration: BoxDecoration(
+                color: _getSeatColor(stateModel.currentSeatsState[rowIndex][colIndex]),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: Center(
+                child: Text(
+                  '${String.fromCharCode(65 + rowIndex)}${colIndex + 1}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
                   ),
                 ),
-              )
-            : SizedBox(),
+              ),
+            )
+          : SizedBox(), // This represents a removed seat
       ),
     ));
   }
+
   Color _getSeatColor(SeatState state) {
     switch (state) {
       case SeatState.selected:
@@ -107,6 +108,6 @@ class CustomSeatLayoutStateModel {
     required this.currentSeatsState,
     required this.horizontalGaps,
     required this.verticalGaps,
-    required this.seatVisibility
+    required this.seatVisibility,
   });
 }

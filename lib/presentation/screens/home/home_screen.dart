@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:theate/presentation/constants/color.dart';
 import 'package:theate/presentation/screens/addingscreens/coustom_seatadding.dart';
+import 'package:theate/presentation/screens/addingscreens/selectedseat.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -66,19 +67,24 @@ class HomeScreen extends StatelessWidget {
                 child: ListTile(
                   title: Text(
                     screen.id,
-                    style: TextStyle(color: MyColor().white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: MyColor().white, fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
                     'Rows: ${screen['rows']} Columns: ${screen['cols']}',
                     style: TextStyle(color: MyColor().white.withOpacity(0.7)),
                   ),
                   trailing: IconButton(
-                    onPressed: () => _showDeleteConfirmation(context, currentUser?.uid, screen.id),
+                    onPressed: () => _showDeleteConfirmation(
+                        context, currentUser?.uid, screen.id),
                     icon: Icon(Icons.delete, color: MyColor().red),
                   ),
-                  onTap: () {
-                    Get.snackbar('Screen Tapped', 'You tapped on ${screen.id}');
-                  },
+              onTap: () {
+  Get.to(() => TheaterSeatLayout(
+    screenData: screen.data() as Map<String, dynamic>, 
+    screenId: screen.id
+  ));
+},
                 ),
               );
             },
@@ -88,7 +94,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmation(BuildContext context, String? userId, String screenId) {
+  void _showDeleteConfirmation(
+      BuildContext context, String? userId, String screenId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
